@@ -283,6 +283,11 @@ Zip::File.open($widget_file_path) do |widget_file|
 	end
 end
 
+puts ""
+puts Rainbow("Waiting to re-package...").magenta
+get_char()
+puts ""
+
 # read widget name
 if $verbose
 	puts ""
