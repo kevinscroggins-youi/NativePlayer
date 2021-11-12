@@ -1,7 +1,7 @@
 # Ignore Eclipse and SDK project files and folders:
 .settings/
 .sign/
-CurrentBin/
+CurrentBin
 Debug/
 Release/
 temp/
