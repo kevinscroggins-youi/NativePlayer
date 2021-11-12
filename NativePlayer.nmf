@@ -1,0 +1,9 @@
+{
+  "files" : { },
+  "program" : {
+    "arm" : {
+      "url" : "NativePlayer_armv7.nexe"
+    }
+  },
+  "permissions" : [ "" ]
+}
