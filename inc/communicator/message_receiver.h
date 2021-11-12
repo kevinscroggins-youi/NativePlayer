@@ -96,7 +96,7 @@ class MessageReceiver : public pp::MessageHandler {
   ///   list object has been removed.
   void WasUnregistered(pp::InstanceHandle) override {}
 
- private:
+// private:
   /// @public
   /// Validates a <code>kChangeRepresentation</code> message, decodes provided
   /// parameters and requests the player to change the defined representation

@@ -25,7 +25,7 @@ var nmf_path_name = 'CurrentBin/NativePlayer.nmf';
 var nacl_width = 1280;
 var nacl_height = 720;
 var uses_logging = false;
-var handleVisibilityChanges = true;
+var handleVisibilityChanges = false;
 
 function visibilityChangeHandler() {
   if(!handleVisibilityChanges) {

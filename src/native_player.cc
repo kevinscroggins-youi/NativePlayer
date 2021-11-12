@@ -56,6 +56,17 @@ void NativePlayer::DidChangeView(const pp::View& view) {
   LOG_DEBUG("View changed to: (x:%d, y: %d), (w:%d, h:%d)", pp_r.x(), pp_r.y(),
             pp_r.width(), pp_r.height());
 
+  if(view.IsVisible()) {
+    LOG_DEBUG("Resuming video.");
+
+    message_receiver_->Play();
+  }
+  else {
+    LOG_DEBUG("Pausing video.");
+
+    message_receiver_->Pause();
+  }
+
   DispatchMessage(message);
 }
 
