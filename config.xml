@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" height="1080" id="https://github.com/SamsungDForum/NativePlayer" version="1.0.0" viewmodes="maximized" width="1920">
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:tizen="http://tizen.org/ns/widgets"
+        width="1920"
+        height="1080"
+        id="https://github.com/SamsungDForum/NativePlayer"
+        version="1.0.0"
+        viewmodes="maximized">
     <access origin="*" subdomains="true"/>
     <tizen:application id="0Nf3BPEsam.native2" package="0Nf3BPEsam" required_version="2.3"/>
+    <tizen:app-control>
+        <tizen:src name="index.html" reload="disable"></tizen:src>
+        <tizen:operation name="http://samsung.com/appcontrol/operation/eden_resume"></tizen:operation>
+    </tizen:app-control>
     <content src="index.html"/>
     <tizen:content-security-policy>*</tizen:content-security-policy>
-    <description>Description of your widget</description>
+    <tizen:setting accelerated-2d-canvas="enable"/>
+    <tizen:setting pointing-device-support="enable"/>
+    <description>Samsung NaCl MediaPlayer sample</description>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="resources/NaClPlayer_logo.png"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/voice.support" value="false"/>
+    <tizen:metadata key="http://samsung.com/tv/metadata/devel.api.version" value="2.4"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/multiscreen.support" value="true"/>
-    <tizen:metadata key="http://samsung.com/tv/metadata/multitasking.support" value="false"/>
+    <tizen:metadata key="http://samsung.com/tv/metadata/multitasking.support" value="true"/>
     <name>Native Player</name>
+    <author>You.i TV</author>
     <tizen:profile name="tv"/>
     <tizen:setting/>
     <tizen:setting/>
     <tizen:privilege name="http://developer.samsung.com/privilege/drmplay"/>
+    <tizen:privilege name="http://developer.samsung.com/privilege/network.public"/>
+    <tizen:privilege name="http://developer.samsung.com/privilege/productinfo"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.audio"/>
     <tizen:privilege name="http://tizen.org/privilege/internet"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
 </widget>

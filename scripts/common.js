@@ -28,6 +28,8 @@ var LogLevelEnum = {
 var logs;
 logs_level = LogLevelEnum.kError;
 
+var nacl_elem = null;
+
 var kInfoPrefix = "INFO:";
 var kErrorPrefix = "ERROR:";
 var kDebugPrefix = "DEBUG:";
@@ -53,6 +55,25 @@ function startsWith(s, prefix) {
  * @returns true - if this message was a log or error message.
  */
 function printIfLog(message) {
+  if(typeof CYIRemoteLogger !== undefined) {
+    if(CYIUtilities.isNonEmptyString(message)) {
+      if(message.indexOf(kDebugPrefix) === 0) {
+        console.log(message);
+        return true;
+      }
+      else if(message.indexOf(kInfoPrefix) === 0) {
+        console.info(message);
+        return true;
+      }
+      else if(message.indexOf(kErrorPrefix) === 0) {
+        console.error(message);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   if ((typeof message == "string") && (uses_logging == true) &&
           (startsWith(message, kInfoPrefix) || startsWith(message, kErrorPrefix)
            || startsWith(message, kDebugPrefix))) {
@@ -69,12 +90,32 @@ function printIfLog(message) {
   return false;
 }
 
+function handleNaclAbort(event) {
+  console.error("NaCl module loading aborted.");
+}
+
+function handleNaclError(event) {
+  console.error(nacl_elem.lastError);
+}
+
 function handleNaclCrash(event) {
   var nacl_module = document.getElementById("nacl_module");
+  console.error("Crashed/exited with status: " + nacl_module.exitStatus);
   updateStatus("Crashed/exited with status: " + nacl_module.exitStatus);
 }
 
+function handleNaclLoadStart(event) {
+  console.log("NaCl module load started.");
+}
+
+function HandleNaclLoadProgress(event) {
+  if(event.lengthComputable && event.total > 0) {
+    console.log("NaCl module load " + ((event.loaded / event.total) * 100).toFixed(0) + "% complete (" + event.loaded + " / " + event.total + " bytes).");
+  }
+}
+
 function handleNaclLoad(event) {
+  console.log("NaCl module loaded successfully.");
   updateStatus("Loaded successfully.");
   updateLogLevel(LogLevelEnum.kError);
   if (typeof(exampleSpecificActionAfterNaclLoad) == "function") {
@@ -90,7 +131,7 @@ function handleNaclLoad(event) {
  * @param height - of a NaCl module"s view in pixels
  */
 function createNaclModule(nmf_path_name, width, height) {
-  var nacl_elem = document.createElement("embed");
+  nacl_elem = document.createElement("embed");
   nacl_elem.setAttribute("name", "nacl_module");
   nacl_elem.setAttribute("id", "nacl_module");
   nacl_elem.setAttribute("type", "application/x-nacl");
@@ -104,7 +145,11 @@ function createNaclModule(nmf_path_name, width, height) {
 
   // attach common listeners
   listenerDiv.addEventListener("message", handleNaclMessage, true);
+  listenerDiv.addEventListener("abort", handleNaclAbort, true);
+  listenerDiv.addEventListener("error", handleNaclError, true);
   listenerDiv.addEventListener("crash", handleNaclCrash, true);
+  listenerDiv.addEventListener("loadstart", handleNaclLoadStart, true);
+  listenerDiv.addEventListener("progress", handleNaclLoadProgress, true);
   listenerDiv.addEventListener("load", handleNaclLoad, true);
 }
 
@@ -112,7 +157,11 @@ function createNaclModule(nmf_path_name, width, height) {
  * Configure this page with example specific elements when document finishes
  * loading.
  */
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(event) {
+  // explicitly focus the body element on startup which has no aria label or role
+  // in order to prevent voice guide from uttering 'document web' on startup on 2018+ Tizen TVs
+  document.body.focus();
+
   document.getElementById("page_title").innerHTML = demo_name;
   document.getElementById("demo_header").innerHTML += demo_name;
   document.getElementById("description").innerHTML = demo_description;
@@ -123,4 +172,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
   createNaclModule(nmf_path_name, nacl_width, nacl_height);
   updateStatus("Loading...");
+});
+
+window.addEventListener("error", function(event) {
+    if(event instanceof ErrorEvent) {
+        var error = event.message;
+
+        if(event.error !== undefined && event.error !== null) {
+            error = event.error;
+        }
+
+        if(error instanceof Error) {
+            if(error.stack === undefined || error.stack === null) {
+                error.stack = CYIUtilities.formatStack(CYIUtilities.getStack().slice(1));
+            }
+
+            console.error("Unhandled Error: " + error.message);
+            console.error(error.stack);
+        }
+        else {
+            console.error("Unhandled Error: " + event.message);
+            console.error("at " + event.filename + ":" + event.lineno + (isNaN(event.colno) ? "" : event.colno));
+        }
+    }
+
+    return false;
+});
+
+window.addEventListener("unhandledrejection", function(event) {
+    if(event instanceof PromiseRejectionEvent) {
+        var reason = event.reason;
+
+        if(reason instanceof Object) {
+            console.error("Unhandled Promise Rejection: " + reason.message);
+        }
+    }
+
+    return false;
 });
