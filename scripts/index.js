@@ -154,3 +154,46 @@ function showPlayer() {
   window.location.href = 'player.html?clip=' + selected_clip +
     '&sub=' + element.selectedIndex;
 }
+
+window.addEventListener("DOMContentLoaded", function(event) {
+  // explicitly focus the body element on startup which has no aria label or role
+  // in order to prevent voice guide from uttering 'document web' on startup on 2018+ Tizen TVs
+  document.body.focus();
+});
+
+window.addEventListener("error", function(event) {
+    if(event instanceof ErrorEvent) {
+        var error = event.message;
+
+        if(event.error !== undefined && event.error !== null) {
+            error = event.error;
+        }
+
+        if(error instanceof Error) {
+            if(error.stack === undefined || error.stack === null) {
+                error.stack = CYIUtilities.formatStack(CYIUtilities.getStack().slice(1));
+            }
+
+            console.error("Unhandled Error: " + error.message);
+            console.error(error.stack);
+        }
+        else {
+            console.error("Unhandled Error: " + event.message);
+            console.error("at " + event.filename + ":" + event.lineno + (isNaN(event.colno) ? "" : event.colno));
+        }
+    }
+
+    return false;
+});
+
+window.addEventListener("unhandledrejection", function(event) {
+    if(event instanceof PromiseRejectionEvent) {
+        var reason = event.reason;
+
+        if(reason instanceof Object) {
+            console.error("Unhandled Promise Rejection: " + reason.message);
+        }
+    }
+
+    return false;
+});
