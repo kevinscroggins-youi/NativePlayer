@@ -15,7 +15,6 @@
     <tizen:setting/>
     <tizen:setting/>
     <tizen:privilege name="http://developer.samsung.com/privilege/drmplay"/>
-    <tizen:privilege name="http://developer.samsung.com/privilege/drminfo"/>
     <tizen:privilege name="http://tizen.org/privilege/internet"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
 </widget>
