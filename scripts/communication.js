@@ -27,6 +27,11 @@ var ClipTypeEnum = {
 
 var clips = [
   {
+    title: "Tears of Steel (Multi-Bitrate)",
+    url: "http://www.bok.net/dash/tears_of_steel/cleartext/stream.mpd",
+    type: ClipTypeEnum.kDash
+  },
+  {
     title: 'Google DASH Car',
     url: 'http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-manifest.mpd',
     subtitles: [

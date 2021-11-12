@@ -24,9 +24,14 @@ var demo_description = '';
 var nmf_path_name = 'CurrentBin/NativePlayer.nmf';
 var nacl_width = 1280;
 var nacl_height = 720;
-var uses_logging = true;
+var uses_logging = false;
+var handleVisibilityChanges = true;
 
 function visibilityChangeHandler() {
+  if(!handleVisibilityChanges) {
+    return;
+  }
+
   if (document.hidden)
     onPauseClick();
   else
@@ -49,6 +54,8 @@ function getQueryVariable(variable) {
 }
 
 function initPlayer() {
+  console.log("Initializing player...");
+
   selected_clip = getQueryVariable('clip');
   if (clips[selected_clip].type == ClipTypeEnum.kUrl)
     ControlButtons.length = kUrlButtonControls;

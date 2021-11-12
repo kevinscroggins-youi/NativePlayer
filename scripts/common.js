@@ -26,7 +26,8 @@ var LogLevelEnum = {
 }
 
 var logs;
-logs_level = LogLevelEnum.kError;
+var logs_level = LogLevelEnum.kError;
+var uses_logging = false;
 
 var nacl_elem = null;
 
@@ -108,7 +109,7 @@ function handleNaclLoadStart(event) {
   console.log("NaCl module load started.");
 }
 
-function HandleNaclLoadProgress(event) {
+function handleNaclLoadProgress(event) {
   if(event.lengthComputable && event.total > 0) {
     console.log("NaCl module load " + ((event.loaded / event.total) * 100).toFixed(0) + "% complete (" + event.loaded + " / " + event.total + " bytes).");
   }
@@ -131,6 +132,8 @@ function handleNaclLoad(event) {
  * @param height - of a NaCl module"s view in pixels
  */
 function createNaclModule(nmf_path_name, width, height) {
+  console.log("Creating NaCl module...");
+
   nacl_elem = document.createElement("embed");
   nacl_elem.setAttribute("name", "nacl_module");
   nacl_elem.setAttribute("id", "nacl_module");

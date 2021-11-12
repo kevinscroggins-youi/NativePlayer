@@ -18,6 +18,8 @@
  * @brief Handles main menu.
  */
 
+var autoShowPlayer = true;
+
 function keyMenuHandler(e) {
   var key_code = e.keyCode;
   switch (key_code) {
@@ -103,6 +105,8 @@ function changeClip(step) {
   selected_clip = modulo(selected_clip, clips.length);
   var previous = modulo(selected_clip - 1, clips.length);
 
+  console.log("Changing clip to " + clips[selected_clip].title);
+
   var inputObject = document.getElementById('left');
   var parent = inputObject.parentNode;
 
@@ -150,6 +154,8 @@ function changeClip(step) {
 }
 
 function showPlayer() {
+  console.log("Showing player...");
+
   var element = document.getElementById('subtitles_menu');
   window.location.href = 'player.html?clip=' + selected_clip +
     '&sub=' + element.selectedIndex;
@@ -159,6 +165,10 @@ window.addEventListener("DOMContentLoaded", function(event) {
   // explicitly focus the body element on startup which has no aria label or role
   // in order to prevent voice guide from uttering 'document web' on startup on 2018+ Tizen TVs
   document.body.focus();
+
+  if(autoShowPlayer) {
+    showPlayer();
+  }
 });
 
 window.addEventListener("error", function(event) {
