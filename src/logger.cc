@@ -35,12 +35,8 @@
 #include "ppapi/cpp/var.h"
 
 pp::Instance* Logger::instance_ = NULL;
-LogLevel Logger::js_log_level_ = LogLevel::kNone;
-#ifdef DEBUG_LOGS
-LogLevel Logger::std_log_level_ = LogLevel::kInfo;
-#else
+LogLevel Logger::js_log_level_ = LogLevel::kDebug;
 LogLevel Logger::std_log_level_ = LogLevel::kNone;
-#endif
 
 namespace {
 

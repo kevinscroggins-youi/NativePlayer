@@ -102,6 +102,8 @@ void UrlPlayerController::InitializeUrlPlayer(
 }
 
 void UrlPlayerController::Play() {
+  LOG_INFO("URL player play.");
+
   if (!player_) {
     LOG_INFO("Play. player is not initialized, cannot play");
     return;
@@ -116,6 +118,8 @@ void UrlPlayerController::Play() {
 }
 
 void UrlPlayerController::Pause() {
+  LOG_INFO("URL player pause.");
+
   if (!player_) {
     LOG_INFO("Pause. player is not initialized");
     return;

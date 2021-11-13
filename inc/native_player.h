@@ -75,6 +75,8 @@ class NativePlayer : public pp::Instance {
   void DispatchMessage(pp::Var message);
 
   void DispatchMessageMessageOnSideThread(int32_t, pp::Var message);
+  void DispatchPlayRequestOnSideThread(int32_t);
+  void DispatchPauseRequestOnSideThread(int32_t);
 
   std::shared_ptr<Communication::MessageReceiver> message_receiver_;
   pp::SimpleThread player_thread_;

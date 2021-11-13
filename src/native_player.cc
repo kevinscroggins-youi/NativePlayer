@@ -40,6 +40,29 @@ const char* kLogDebug = "debug";
 NativePlayer::~NativePlayer() { UnregisterMessageHandler(); }
 
 void NativePlayer::DidChangeView(const pp::View& view) {
+  static bool wasBackgrounded = false;
+
+  if(view.IsVisible()) {
+    if(wasBackgrounded) {
+      LOG_INFO("Resuming video.");
+
+      wasBackgrounded = false;
+
+      player_thread_.message_loop().PostWork(
+        cc_factory_.NewCallback(
+            &NativePlayer::DispatchPlayRequestOnSideThread));
+    }
+  }
+  else {
+    LOG_INFO("Backgrounding video.");
+
+    wasBackgrounded = true;
+
+    player_thread_.message_loop().PostWork(
+      cc_factory_.NewCallback(
+          &NativePlayer::DispatchPauseRequestOnSideThread));
+  }
+
   const pp::Rect pp_r{view.GetRect().size()};
   if (rect_ == pp_r) return;
 
@@ -55,17 +78,6 @@ void NativePlayer::DidChangeView(const pp::View& view) {
 
   LOG_DEBUG("View changed to: (x:%d, y: %d), (w:%d, h:%d)", pp_r.x(), pp_r.y(),
             pp_r.width(), pp_r.height());
-
-  if(view.IsVisible()) {
-    LOG_DEBUG("Resuming video.");
-
-    message_receiver_->Play();
-  }
-  else {
-    LOG_DEBUG("Pausing video.");
-
-    message_receiver_->Pause();
-  }
 
   DispatchMessage(message);
 }
@@ -120,4 +132,12 @@ void NativePlayer::DispatchMessage(pp::Var message) {
 void NativePlayer::DispatchMessageMessageOnSideThread(int32_t,
     pp::Var message) {
   message_receiver_->HandleMessage(this, message);
+}
+
+void NativePlayer::DispatchPlayRequestOnSideThread(int32_t) {
+  message_receiver_->Play();
+}
+
+void NativePlayer::DispatchPauseRequestOnSideThread(int32_t) {
+  message_receiver_->Pause();
 }

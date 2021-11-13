@@ -118,7 +118,7 @@ function handleNaclLoadProgress(event) {
 function handleNaclLoad(event) {
   console.log("NaCl module loaded successfully.");
   updateStatus("Loaded successfully.");
-  updateLogLevel(LogLevelEnum.kError);
+  updateLogLevel(LogLevelEnum.kInfo);
   if (typeof(exampleSpecificActionAfterNaclLoad) == "function") {
     exampleSpecificActionAfterNaclLoad();
   }

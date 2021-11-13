@@ -75,9 +75,11 @@ void MessageReceiver::HandleMessage(pp::InstanceHandle /*instance*/,
                 msg.Get(kDrmKeyRequestProperties));
       break;
     case MessageToPlayer::kPlay:
+      LOG_INFO("MessageReceiver::Play()");
       Play();
       break;
     case MessageToPlayer::kPause:
+      LOG_INFO("MessageReceiver::Pause()");
       Pause();
       break;
     case MessageToPlayer::kSeek:
@@ -216,6 +218,9 @@ void MessageReceiver::SetLogLevel(const pp::Var& pp_level) {
   auto level = ClipToRange(pp_level.AsInt(),
                            static_cast<int32_t>(LogLevel::kMinLevel),
                            static_cast<int32_t>(LogLevel::kMaxLevel));
+
+  LOG_INFO("Setting JavaScript log level to: %d.", level);
+
   Logger::SetJsLogLevel(static_cast<LogLevel>(level));
 }
 

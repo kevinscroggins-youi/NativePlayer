@@ -34,6 +34,8 @@ std::shared_ptr<PlayerController> PlayerProvider::CreatePlayer(
         drm_key_request_properties) {
   switch (type) {
     case kUrl: {
+      LOG_INFO("Creating URL player controller...");
+
       std::shared_ptr<UrlPlayerController> controller =
           std::make_shared<UrlPlayerController>(instance_, message_sender_);
       controller->SetViewRect(view_rect);
@@ -41,6 +43,8 @@ std::shared_ptr<PlayerController> PlayerProvider::CreatePlayer(
       return controller;
     }
     case kEsDash: {
+      LOG_INFO("Creating DASH ES player controller...");
+
       std::shared_ptr<EsDashPlayerController> controller =
           std::make_shared<EsDashPlayerController>(instance_, message_sender_);
       controller->SetViewRect(view_rect);

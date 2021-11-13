@@ -80,6 +80,8 @@ class EsDashPlayerController::Impl {
                                StreamType type,
                                Samsung::NaClPlayer::DRMType drm_type,
                                const std::vector<RepType>& representations) {
+    LOG_INFO("Initializing elementary stream...");
+
     if (representations.empty()) return;
 
     RepType s = GetHighestBitrateStream(representations);
@@ -250,6 +252,8 @@ void EsDashPlayerController::InitializeAudioStream(
 }
 
 void EsDashPlayerController::Play() {
+  LOG_INFO("ES player play.");
+
   if (!player_) {
     LOG_INFO("Play. player_ is null");
     return;
@@ -265,6 +269,8 @@ void EsDashPlayerController::Play() {
 }
 
 void EsDashPlayerController::Pause() {
+  LOG_INFO("ES player pause.");
+
   if (!player_) {
     LOG_INFO("Pause. player_ is null");
     return;
