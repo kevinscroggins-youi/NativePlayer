@@ -19,6 +19,10 @@
  * All NaCl <-> JS communication should be implemented in this file.
  */
 
+var autoPlay = true;
+var autoRestart = true;
+var initialClipIndex = 1;
+
 var ClipTypeEnum = {
   kUnknown : 0,
   kUrl : 1,
@@ -207,7 +211,7 @@ var ControlButtons = [
   },
 ];
 
-var kInit = 0;
+var kInit = initialClipIndex;
 var kNext = 1;
 var kPauseSymbol = '&#10074&#10074';
 var kPlaySymbol = '&#9654';
@@ -317,6 +321,15 @@ function handleNaclMessage(message_event) {
   case MessageFromPlayerEnum.kBufferingCompleted:
     ui_enabled = true;
     document.getElementById('loading').style.display = 'none';
+    if(autoPlay && typeof onPlayClick === "function") {
+      onPlayClick();
+
+      if(autoRestart) {
+        setTimeout(function() {
+          showMenu();
+        }, 5000);
+      }
+    }
     break;
   case MessageFromPlayerEnum.kAudioRepresentation:
     document.getElementById('audio_reps').style.display = 'inline-block';
