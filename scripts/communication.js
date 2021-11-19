@@ -29,7 +29,22 @@ var clips = [
   {
     title: "Tears of Steel (Multi-Bitrate)",
     url: "http://www.bok.net/dash/tears_of_steel/cleartext/stream.mpd",
-    type: ClipTypeEnum.kDash
+    type: ClipTypeEnum.kDash,
+    poster: "http://fanart.tv/fanart/movies/133701/moviethumb/tears-of-steel-585bf210544bb.jpg"
+  },
+  {
+    title: 'Big Buck Bunny (PlayReady)',
+    url: 'https://amssamples.streaming.mediaservices.windows.net/622b189f-ec39-43f2-93a2-201ac4e31ce1/BigBuckBunny.ism/manifest(format=mpd-time-csf)',
+    type: ClipTypeEnum.kDash,
+    poster: 'resources/bunny.jpg',
+    drm_license_url: "https://amssamples.keydelivery.mediaservices.windows.net/PlayReady/"
+  },
+  {
+    title: 'Tears of Steel (PlayReady 2.0)',
+    url: 'https://profficialsite.origin.mediaservices.windows.net/c51358ea-9a5e-4322-8951-897d640fdfd7/tearsofsteel_4k.ism/manifest(format=mpd-time-csf)',
+    type: ClipTypeEnum.kDash,
+    poster: 'http://fanart.tv/fanart/movies/133701/moviethumb/tears-of-steel-585bf210544bb.jpg',
+    drm_license_url: "https://test.playready.microsoft.com/service/rightsmanager.asmx?cfg=(persist:false,sl:150)"
   },
   {
     title: 'Google DASH Car',
