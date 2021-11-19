@@ -751,7 +751,7 @@ CYIRemoteLogger.sendRequest = function sendRequest(options, callback) {
 		throw new Error("Missing or invalid request url, expected non-empty string!")
 	}
 
-	if(options.timeout !== undefined && options.timeout !== null && (!Number.isInteger(options.timeout) || options.timeout < 0)) {
+	if(options.timeout !== undefined && options.timeout !== null && (!(typeof options.timeout === "number") || options.timeout < 0)) {
 		throw new Error("Missing or invalid request timeout, expected positive integer!")
 	}
 
